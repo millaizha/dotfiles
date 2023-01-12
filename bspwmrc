@@ -25,20 +25,20 @@ BSPWM_ABC='#b4a1db'
 BSPWM_PFC='#74dd91'
 
 ## Bspwm appearance
-BSPWM_BORDER='2'
-BSPWM_GAP='10'
+BSPWM_BORDER='1'
+BSPWM_GAP='0'
 BSPWM_SRATIO='0.50'
 
 ## Configurations --------------------------------------------#
 
 ## Manager Workspaces
 workspaces() {
-	name=1
+	name=0
 	for monitor in `bspc query -M`; do
 		#bspc monitor ${monitor} -n "$name" -d '1' '2' '3' '4' '5' '6' '7' '8'
 		#bspc monitor ${monitor} -n "$name" -d 'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H'
 		#bspc monitor ${monitor} -n "$name" -d 'I' 'II' 'III' 'IV' 'V' 'VI' 'VII' 'VIII'
-		bspc monitor ${monitor} -n "$name" -d '' '' '' '' '拾' '' '' '' ''
+		bspc monitor ${monitor} -n "$name" -d '' '爵' '' '' '拾' '' '' '' '辶' '' 
 		let name++
 	done
 }
@@ -75,10 +75,10 @@ bspc rule -a Alacritty desktop='^1' follow=on focus=on
 bspc rule -a Xfce4-terminal desktop='^1' follow=on focus=on
 
 ## 2 > web (always open web browser on workspace-2)
-bspc rule -a firefox desktop='^2' follow=on focus=on
+bspc rule -a Microsoft-edge desktop='^2' follow=on focus=on
 
 ## 3 > files (always open file manager on workspace-3)
-declare -a files=(Pcmanfm Thunar qBittorrent)
+declare -a files=(Thunar)
 for i in ${files[@]}; do
    bspc rule -a $i desktop='^3' follow=on focus=on; done
 
@@ -115,10 +115,13 @@ for i in ${settings[@]}; do
    bspc rule -a $i desktop='^8' state=floating follow=on focus=on; done
 
 ## 9 > video call (always open video call apps on workspace-9)
-bspc rule -a 'zoom' desktop='^9' follow=on focus=on
+bspc rule -a zoom desktop='^9' follow=on focus=on
+
+## 10 > version control (always open version controls on worskspace-10)
+bspc rule -a GitKraken desktop='^10' follow=on focus=on
 
 ## Always Floating Apps
-declare -a floating=(alacritty-float Pcmanfm Thunar Onboard Yad 'Firefox:Places' \
+declare -a floating=(alacritty-float Pcmanfm Onboard Yad \
 Viewnior feh Nm-connection-editor)
 for i in ${floating[@]}; do
    bspc rule -a $i state=floating follow=on focus=on; done

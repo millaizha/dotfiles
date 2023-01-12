@@ -27,14 +27,14 @@ alt + F2
 	rofi_runner
 
 # Rofi Menus/Applets
-super + {m,n,r,s,t,w,x}
-	{rofi_music,nmd,rofi_asroot,rofi_screenshot,rofi_themes,rofi_windows,rofi_powermenu}
+super + {d,m,n,r,s,t,w,x}
+	{~/.config/bspwm/scripts/rofi_calendar,rofi_music,nmd,rofi_asroot,rofi_screenshot,rofi_themes,rofi_windows,rofi_powermenu}
 
 ##---------- Applications ----------##
 
 # Launch Apps
 super + shift + {f,w,e,m,s,z,n}
-	{thunar,firefox,code,caprine,spotify,zoom,notion-app-enhanced}
+	{thunar,microsoft-edge-stable,code,caprine,spotify,zoom,notion-app-enhanced}
 
 # Terminal Apps
 ctrl + alt + {v,r,h}
@@ -44,12 +44,12 @@ ctrl + alt + {v,r,h}
 # super + p
 # 	bspcolorpicker
 
-# Music
-ctrl + alt + m
-	bspmusic
+# # Music
+# ctrl + alt + m
+# 	bspmusic
 
 # Lockscreen
-ctrl + alt + l
+super + l
     betterlockscreen --lock
 
 ##---------- System Keys ----------##
@@ -90,6 +90,14 @@ XF86Audio{Mute,MicMute}
 XF86Audio{Next,Prev,Play,Stop}
 	mpc {next,prev,toggle,stop}
 
+# Spotify control 
+# Laptop
+super + {F1,F2,F3}
+	playerctl {previous,play-pause,next}
+# PC
+XF86Audio{Next,Prev,Play}
+	playerctl {next,previous,play-pause}
+
 ##---------- Bspwm ----------##
 
 # Hide/Unhide Window
@@ -105,7 +113,7 @@ ctrl + alt + Escape
     xkill
 
 # Quit/Restart bspwm
-ctrl + shift + {q,r}
+super + shift + {q,r}
 	bspc {quit,wm -r}
 	
 # Reload Keybindings
@@ -117,8 +125,8 @@ ctrl + alt + {Left,Right}
 	bspc desktop -f {prev.local,next.local}
 
 # Switch workspace or Send focused Node to another workspace
-super + {_,shift + }{1-9}
-	bspc {desktop -f,node -d} '^{1-9}' '--follow'
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}' '--follow'
 
 # Send focused Node to workspace directionally
 super + ctrl + shift + {Left,Right}
