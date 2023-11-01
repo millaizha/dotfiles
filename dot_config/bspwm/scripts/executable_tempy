@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# execute tempy
+
+cd ~/.local/bin && python tempy los banos --u metric

@@ -1,0 +1,87 @@
+# #!/usr/bin/env bash
+
+# Import Current Theme
+DIR="$HOME/.config/bspwm"
+STYLE="manhattan"
+roficonfig="$DIR/themes/$STYLE/rofi/music.rasi"
+
+Control="MPD"
+[ -n "$(pgrep cider)" ] && Control="cider"
+
+musicmetadata() {
+
+player=""
+
+title=$(playerctl --player=$Control metadata --format {{title}} | cut -c1-45)
+title=${title:-Play Something}
+
+artist=$(playerctl --player=$Control metadata --format {{artist}} | cut -c1-45)
+artist=${artist:-Artist}
+
+album=$(playerctl --player=$Control metadata --format {{album}} | cut -c1-45)
+album=${album:-Album}
+
+status=$(playerctl --player=$Control status)
+status=${status:-Stopped}
+
+icon="ﭥ"
+[ "$status" = "Playing" ] && icon=""
+[ "$status" = "Paused" ] && icon="喇"
+
+}
+
+mpdmetadata() {
+
+player=""
+
+ffmpeg -i "$mpddir"/"$(mpc current -f %file%)" -vf scale=500:500 "${Cover}" -y || cp $bkpCover $Cover
+
+title=$(mpc -f %title% current | cut -c1-30)
+title=${title:-Play Something}
+
+artist=$(mpc -f %artist% current | cut -c1-30)
+artist=${artist:-Artist}
+
+album=$(mpc -f %album% current | cut -c1-30)
+album=${album:-Album}
+
+stat=$(mpc status | head -2 | tail -1 | cut -c2-7 )
+icon="ﭥ"
+status="Stopped"
+[ "$stat" = "playin" ] && status="Playing" && icon=""
+[ "$stat" = "paused" ] && status="Paused" && icon="喇"
+}
+
+case $Control in
+	MPD)    mpdmetadata       ;;
+	*)      musicmetadata     ;;
+esac 2>/dev/null
+
+## Rofi stuff
+previous="玲"
+next="怜"
+options="$previous\n$icon\n$next"
+
+rofi=$(printf $options | rofi -config $roficonfig -dmenu -i -selected-row 2 -hover-select -p "$status
+$title 
+$album
+$artist")
+
+## actions
+case $Control in
+	MPD)
+	case $rofi in 
+		$player)	$terminal -e ncmpcpp      ;;
+		$next)		mpc -q next               ;;
+		$icon)		mpc -q toggle             ;;
+		$previous)	mpc -q prev             ;;
+	esac
+	;;
+	*)
+	case $rofi in 
+		$player)	wmctrl -a $Control || $Control              ;;
+		$next)		playerctl --player=$Control next            ;;
+		$icon)		playerctl --player=$Control play-pause      ;;
+		$previous)	playerctl --player=$Control previous      ;;
+	esac
+esac 2>/dev/null
