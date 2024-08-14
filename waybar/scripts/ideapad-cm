@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Check current status
+if ideapad-cm status | grep -q "Battery conservation mode is currently enabled."; then
+    # Disable conservation mode
+    ideapad-cm disable
+    STATUS="󱐌"
+else
+    # Enable conservation mode
+    ideapad-cm enable
+    STATUS="󱐋"
+fi
+
+# Update the tooltip file or method here
+echo $STATUS > /tmp/ideapad_cm_status
+
