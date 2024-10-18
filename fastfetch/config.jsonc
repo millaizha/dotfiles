@@ -25,7 +25,7 @@
     "break",
     {
       "type": "title",
-      "format": "\u001b[31m                  xx0a_q @ lunix                   \u001b[0m"
+      "format": "\u001b[31m                      mill                         \u001b[0m"
     },
     {
       "type": "custom",
